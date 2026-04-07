@@ -1,0 +1,1637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Locations - P S Industries</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
+    <style>
+        /* ================= RESET & BASE STYLES ================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    color: #333;
+    line-height: 1.6;
+    overflow-x: hidden;
+    padding-top: 90px;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    background: linear-gradient(rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.92)),
+                url('factory-bg.jpg') center/cover fixed no-repeat;
+    min-height: 100vh;
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('TFO.jpg');
+    background-size: cover;
+    opacity: 0.15;
+    z-index: -1;
+    pointer-events: none;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: relative;
+    margin-top: 150px;
+    z-index: 1;
+}
+
+/* ================= ADMIN PORTAL BUTTON ================= */
+.admin-portal {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+}
+
+.admin-portal-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #CF4B00, #DDBA7D);
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(207, 75, 0, 0.2);
+    border: 2px solid transparent;
+}
+
+.admin-portal-btn:hover {
+    background: linear-gradient(135deg, #DDBA7D, #CF4B00);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(207, 75, 0, 0.3);
+    border-color: #9CC6DB;
+}
+
+.admin-portal-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* ================= ELEGANT FIXED HEADER ================= */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 2px solid #DDBA7D;
+    box-shadow: 0 4px 20px rgba(207, 75, 0, 0.15);
+    padding: 15px 0;
+    transition: all 0.3s ease;
+}
+
+header.scrolled {
+    padding: 10px 0;
+    background: rgba(255, 255, 255, 0.98);
+    border-bottom-color: #CF4B00;
+    box-shadow: 0 6px 25px rgba(207, 75, 0, 0.2);
+}
+
+.header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    margin-bottom: 10px;
+}
+
+/* Logo and Company Name Container */
+.logo-company-container {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    border: 2px solid #DDBA7D;
+    box-shadow: 0 4px 15px rgba(207, 75, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.logo-company-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(156, 198, 219, 0.1), transparent);
+    z-index: 0;
+}
+
+.logo-frame {
+    background: white;
+    border-radius: 12px;
+    padding: 8px;
+    box-shadow: 0 4px 15px rgba(207, 75, 0, 0.15);
+    border: 2px solid #CF4B00;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.logo-frame img {
+    border-radius: 8px;
+    display: block;
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+}
+
+.company-info {
+    text-align: center;
+}
+
+.company-info h1 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #CF4B00;
+    margin-bottom: 5px;
+    letter-spacing: -0.5px;
+    text-shadow: 1px 1px 3px rgba(207, 75, 0, 0.2);
+    position: relative;
+}
+
+.company-info h1::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, #CF4B00, transparent);
+}
+
+.tagline {
+    color: #666;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding-left: 5px;
+    border-left: 3px solid #9CC6DB;
+}
+
+/* ================= NAVIGATION ================= */
+nav {
+    padding: 15px 30px 0;
+}
+
+.nav-links {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    gap: 8px;
+    background: linear-gradient(135deg, #9CC6DB, #DDBA7D);
+    padding: 10px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(207, 75, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-links::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+}
+
+.nav-links li {
+    position: relative;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+    padding: 12px 25px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+    display: block;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    position: relative;
+    z-index: 1;
+}
+
+.nav-links a:hover {
+    background: #CF4B00;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(207, 75, 0, 0.3);
+}
+
+.nav-links a.active {
+    background: #CF4B00;
+    color: white;
+    box-shadow: 0 3px 10px rgba(207, 75, 0, 0.3);
+}
+
+/* ================= MAIN CONTENT LAYOUT ================= */
+.main-content {
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    gap: 40px;
+    margin: 40px 0;
+    align-items: start;
+}
+
+/* ================= GLOBE CONTAINER - LEFT SIDEBAR ================= */
+.globe-container {
+    background: linear-gradient(135deg, rgba(156, 198, 219, 0.15), rgba(221, 186, 125, 0.15));
+    border-radius: 15px;
+    padding: 20px;
+    border: 2px solid #DDBA7D;
+    backdrop-filter: blur(5px);
+    position: sticky;
+    top: 20px;
+    box-shadow: 0 8px 25px rgba(207, 75, 0, 0.15);
+}
+
+.globe-wrapper {
+    position: relative;
+    width: 100%;
+    height: 350px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 249, 250, 0.9));
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(207, 75, 0, 0.1);
+}
+
+#globeCanvas {
+    width: 100%;
+    height: 100%;
+}
+
+.loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #CF4B00;
+    font-size: 1.1rem;
+    text-align: center;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 15px 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(207, 75, 0, 0.1);
+}
+
+.globe-controls {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.control-btn {
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #CF4B00, #DDBA7D);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 10px rgba(207, 75, 0, 0.2);
+    border: 2px solid transparent;
+    flex: 1;
+}
+
+.control-btn:hover {
+    background: linear-gradient(135deg, #DDBA7D, #CF4B00);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(207, 75, 0, 0.3);
+    border-color: #9CC6DB;
+}
+
+.control-btn.secondary {
+    background: white;
+    color: #CF4B00;
+    border: 2px solid #CF4B00;
+}
+
+.control-btn.secondary:hover {
+    background: #CF4B00;
+    color: white;
+}
+
+/* ================= LOCATIONS SECTION ================= */
+.locations-section {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.92);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(207, 75, 0, 0.15);
+    border: 2px solid #DDBA7D;
+    backdrop-filter: blur(5px);
+    position: relative;
+    overflow: hidden;
+}
+
+.locations-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(156, 198, 219, 0.05), rgba(221, 186, 125, 0.05));
+    z-index: 0;
+}
+
+.section-title {
+    font-size: 2rem;
+    color: #CF4B00;
+    margin-bottom: 10px;
+    text-align: left;
+    font-weight: 700;
+    position: relative;
+    padding-bottom: 15px;
+    z-index: 1;
+}
+
+.section-title:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #CF4B00, #DDBA7D);
+    border-radius: 2px;
+}
+
+.section-subtitle {
+    color: #666;
+    margin-bottom: 40px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    z-index: 1;
+    position: relative;
+}
+
+/* ================= LOCATIONS GRID ================= */
+.locations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.location-card {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid #DDBA7D;
+    box-shadow: 0 5px 20px rgba(207, 75, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.location-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, #CF4B00, #DDBA7D);
+    z-index: 1;
+}
+
+.location-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(207, 75, 0, 0.2);
+    border-color: #CF4B00;
+}
+
+.location-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.location-name {
+    font-size: 1.3rem;
+    color: #CF4B00;
+    font-weight: 700;
+}
+
+.location-country {
+    font-size: 1rem;
+    color: #DDBA7D;
+    font-weight: 500;
+    margin-top: 5px;
+}
+
+/* Location type badges */
+.location-type {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.type-office { 
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb); 
+    color: #1565c0; 
+}
+.type-factory { 
+    background: linear-gradient(135deg, #e8f5e8, #c8e6c9); 
+    color: #2e7d32; 
+}
+.type-warehouse { 
+    background: linear-gradient(135deg, #fff3e0, #ffcc80); 
+    color: #ef6c00; 
+}
+.type-showroom { 
+    background: linear-gradient(135deg, #fce4ec, #f8bbd9); 
+    color: #ad1457; 
+}
+.type-distribution { 
+    background: linear-gradient(135deg, #f3e5f5, #e1bee7); 
+    color: #7b1fa2; 
+}
+
+.location-description {
+    color: #444;
+    margin-bottom: 20px;
+    line-height: 1.7;
+    font-size: 0.95rem;
+}
+
+.location-details {
+    border-top: 1px solid #e2e8f0;
+    padding-top: 15px;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.detail-icon {
+    width: 16px;
+    height: 16px;
+    color: #CF4B00;
+    flex-shrink: 0;
+}
+
+.coordinates {
+    font-family: 'Monaco', 'Consolas', monospace;
+    font-size: 0.8rem;
+    color: #666;
+    background: #f7fafc;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+/* ================= STATS SECTION ================= */
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    background: linear-gradient(135deg, rgba(156, 198, 219, 0.9), rgba(221, 186, 125, 0.9));
+    padding: 40px;
+    border-radius: 15px;
+    margin-top: 40px;
+    border: 3px solid #CF4B00;
+    box-shadow: 0 10px 30px rgba(207, 75, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.stats-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('factory-bg.jpg') center/cover;
+    opacity: 0.1;
+    z-index: 0;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 30px 20px;
+    border-radius: 12px;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    position: relative;
+    z-index: 1;
+    backdrop-filter: blur(5px);
+}
+
+.stat-card:hover {
+    transform: translateY(-5px) scale(1.05);
+    border-color: #CF4B00;
+    box-shadow: 0 15px 30px rgba(207, 75, 0, 0.25);
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #CF4B00;
+    margin-bottom: 10px;
+    text-shadow: 1px 1px 3px rgba(207, 75, 0, 0.2);
+}
+
+.stat-label {
+    color: #666;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ================= NAVIGATION ================= */
+nav {
+    padding: 15px 30px 0;
+    position: relative;
+    z-index: 1100; /* Increased z-index */
+}
+
+.nav-links {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    gap: 8px;
+    background: linear-gradient(135deg, #9CC6DB, #DDBA7D); /* Blue to gold gradient */
+    padding: 10px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(207, 75, 0, 0.2);
+    position: relative;
+    overflow: visible; /* CHANGED FROM hidden TO visible */
+    z-index: 1100;
+}
+
+.nav-links::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+}
+
+.nav-links li {
+    position: relative;
+}
+
+.dropdown {
+    position: relative;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+    padding: 12px 25px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+    display: block;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    position: relative;
+    z-index: 1;
+}
+
+.nav-links a:hover {
+    background: #CF4B00; /* Orange */
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(207, 75, 0, 0.3);
+}
+
+.nav-links a.active {
+    background: #CF4B00;
+    color: white;
+    box-shadow: 0 3px 10px rgba(207, 75, 0, 0.3);
+}
+
+/* ================= DROPDOWN MENUS ================= */
+.dropdown-content {
+    position: absolute;
+    top: 100%; /* Position directly below */
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    min-width: 220px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(207, 75, 0, 0.25);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease; /* Faster transition */
+    padding: 15px; /* More padding for better click area */
+    border: 2px solid #DDBA7D;
+    z-index: 1200;
+    pointer-events: none;
+}
+
+.dropdown:hover .dropdown-content {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    top: calc(100% + 5px);
+}
+
+.dropdown:hover .dropdown-content {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    top: calc(100% + 10px); /* Enable interaction when visible */
+    /* No need to change top position on hover */
+}
+
+.dropdown:hover .dropdown-content {
+    opacity: 1;
+    visibility: visible;
+    top: calc(100% + 5px);
+    pointer-events: auto; /* Enable interaction when visible */
+}
+
+.dropdown-content a {
+    padding: 12px 18px;
+    margin: 5px 0;
+    border-radius: 8px;
+    color: #333;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.8);
+    border-left: 4px solid #9CC6DB; /* Blue accent */
+    transition: all 0.2s ease;
+    text-align: left;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background: #CF4B00; /* Orange */
+    color: white;
+    transform: translateX(5px);
+    border-left-color: #CF4B00;
+}
+/* ================= DROPDOWN MENUS ================= */
+.dropdown {
+    position: relative;
+}
+
+.dropdown-content {
+    position: absolute;
+    top: 100%; /* Start directly below the parent */
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    min-width: 220px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(207, 75, 0, 0.25);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    padding: 15px;
+    border: 2px solid #DDBA7D;
+    z-index: 1200;
+    pointer-events: none;
+}
+
+/* Create a gap that connects the dropdown to its parent */
+.dropdown-content::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 0;
+    width: 100%;
+    height: 10px;
+    background: transparent;
+}
+
+/* Show dropdown when hovering over parent OR dropdown itself */
+.dropdown:hover .dropdown-content,
+.dropdown-content:hover {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    top: calc(100% + 5px);
+}
+
+.dropdown-content a {
+    padding: 12px 18px;
+    margin: 5px 0;
+    border-radius: 8px;
+    color: #333;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.8);
+    border-left: 4px solid #9CC6DB;
+    transition: all 0.2s ease;
+    text-align: left;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background: #CF4B00;
+    color: white;
+    transform: translateX(5px);
+    border-left-color: #CF4B00;
+}
+
+/* ================= HEADER FIX ================= */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 2px solid #DDBA7D;
+    box-shadow: 0 4px 20px rgba(207, 75, 0, 0.15);
+    padding: 15px 0;
+    transition: all 0.3s ease;
+}
+
+/* ================= MAIN CONTENT ADJUSTMENT ================= */
+.main-content {
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    gap: 40px;
+    margin: 40px 0;
+    align-items: start;
+    position: relative;
+    z-index: 1; /* Lower than dropdown */
+}
+
+/* ================= CONTAINER ADJUSTMENT ================= */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: relative;
+    margin-top: 150px;
+    z-index: 1; /* Lower than dropdown */
+}
+
+/* ================= FOOTER ================= */
+footer {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    color: white;
+    padding: 30px 25px 15px;
+    margin-top: 50px;
+    border-top: 3px solid #CF4B00;
+    position: relative;
+    overflow: hidden;
+}
+
+footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('factory-bg.jpg') center/cover;
+    opacity: 0.05;
+    z-index: 0;
+}
+
+footer:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #CF4B00, #DDBA7D, #9CC6DB);
+    z-index: 1;
+}
+
+.footer-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 25px;
+    margin-bottom: 25px;
+    position: relative;
+    z-index: 1;
+}
+
+.footer-column h4 {
+    font-size: 1.1rem;
+    margin-bottom: 18px;
+    color: #DDBA7D;
+    font-weight: 600;
+    position: relative;
+    padding-bottom: 8px;
+}
+
+.footer-column h4:after {
+    content: '';
+    display: block;
+    width: 35px;
+    height: 2px;
+    background: #CF4B00;
+    margin-top: 6px;
+    border-radius: 1px;
+}
+
+.footer-column a, .footer-column p {
+    color: #aaa;
+    text-decoration: none;
+    margin-bottom: 10px;
+    display: block;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+.footer-column a:hover {
+    color: white;
+    background: rgba(207, 75, 0, 0.2);
+    transform: translateX(5px);
+    border-left: 2px solid #9CC6DB;
+}
+
+.support-link {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+.support-link svg {
+    margin-right: 8px;
+    color: #DDBA7D;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid rgba(221, 186, 125, 0.2);
+    position: relative;
+    font-size: 0.85rem;
+    color: #999;
+    z-index: 1;
+}
+
+.instagram-corner {
+    position: absolute;
+    left: 25px;
+    bottom: 15px;
+    z-index: 1;
+}
+
+.instagram-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 15px;
+    background: linear-gradient(135deg, #CF4B00, #DDBA7D);
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.instagram-icon-btn:hover {
+    background: linear-gradient(135deg, #DDBA7D, #CF4B00);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(207, 75, 0, 0.25);
+    border-color: #9CC6DB;
+}
+
+.instagram-icon-simple {
+    width: 14px;
+    height: 14px;
+}
+
+/* ================= RESPONSIVE DESIGN ================= */
+@media (max-width: 1200px) {
+    .container {
+        max-width: 95%;
+    }
+}
+
+@media (max-width: 1024px) {
+    .main-content {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .globe-container {
+        position: static;
+    }
+    
+    .globe-wrapper {
+        height: 400px;
+    }
+}
+
+@media (max-width: 992px) {
+    .header-top {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .company-info h1 {
+        font-size: 2rem;
+    }
+    
+    .globe-wrapper {
+        height: 350px;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding-top: 130px;
+        background-attachment: scroll;
+    }
+    
+    .container {
+        margin-top: 120px;
+        padding: 0 15px;
+    }
+    
+    .admin-portal {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        z-index: 1000;
+    }
+    
+    .admin-portal-btn {
+        padding: 10px 16px;
+        font-size: 0.85rem;
+    }
+    
+    .logo-frame img {
+        width: 140px;
+        height: 140px;
+    }
+    
+    .nav-links {
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 12px;
+    }
+    
+    .nav-links a {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+    
+    .locations-section {
+        padding: 30px 20px;
+    }
+    
+    .globe-wrapper {
+        height: 300px;
+    }
+    
+    .globe-controls {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .control-btn {
+        width: 100%;
+        max-width: 250px;
+    }
+    
+    .locations-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .stats-container {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 30px 20px;
+    }
+    
+    .footer-links {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .instagram-corner {
+        position: relative;
+        left: 0;
+        bottom: 0;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 576px) {
+    body {
+        padding-top: 150px;
+    }
+    
+    .nav-links {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .nav-links a {
+        text-align: center;
+        padding: 14px;
+    }
+    
+    .globe-wrapper {
+        height: 250px;
+    }
+    
+    .stats-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .section-title {
+        font-size: 1.7rem;
+    }
+    
+    .footer-links {
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-bottom {
+        text-align: center;
+    }
+    
+    .instagram-corner {
+        position: static;
+        margin-top: 25px;
+        text-align: center;
+    }
+}
+
+/* ================= ANIMATIONS ================= */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes cardHover {
+    0% {
+        transform: translateY(0) scale(1);
+    }
+    100% {
+        transform: translateY(-10px) scale(1.02);
+    }
+}
+
+.location-card {
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.logo-frame:hover img {
+    animation: float 2s ease-in-out infinite;
+}
+
+.location-card:hover {
+    animation: cardHover 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Staggered animation for cards */
+.location-card:nth-child(1) { animation-delay: 0.1s; }
+.location-card:nth-child(2) { animation-delay: 0.2s; }
+.location-card:nth-child(3) { animation-delay: 0.3s; }
+.location-card:nth-child(4) { animation-delay: 0.4s; }
+.location-card:nth-child(5) { animation-delay: 0.5s; }
+.location-card:nth-child(6) { animation-delay: 0.6s; }
+
+.stat-card:nth-child(1) { animation-delay: 0.1s; }
+.stat-card:nth-child(2) { animation-delay: 0.2s; }
+.stat-card:nth-child(3) { animation-delay: 0.3s; }
+.stat-card:nth-child(4) { animation-delay: 0.4s; }
+
+/* Subtle background animation */
+@keyframes subtleBg {
+    0%, 100% {
+        background-position: center center;
+    }
+    50% {
+        background-position: calc(50% + 5px) calc(50% + 5px);
+    }
+}
+
+body {
+    animation: subtleBg 30s ease-in-out infinite;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-top">
+                <div class="logo-container">
+                    <div class="logo-frame">
+                        <img src="final.png" alt="Company Logo" height="185px" width="185px">
+                    </div>
+                </div>
+                <div class="company-info">
+                    <h1>P S Industries</h1>
+                    <p class="tagline">Precision Engineering & Manufacturing</p>
+                </div>
+            </div>
+            
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="home.php">Home</a></li>
+                    <li class="dropdown"> <!-- Added class here -->
+                        <a href="#">Overview</a>
+                        <div class="dropdown-content">
+                            <a href="history.php">Company History</a>
+                            <a href="#">Our Mission</a>
+                            <a href="#">Leadership Team</a>
+                        </div>
+                    </li>
+                    <li class="dropdown"> <!-- Added class here -->
+                        <a href="#">Product Range</a>
+                        <div class="dropdown-content">
+                            <a href="#">Double Density DTY Machine</a>
+                            <a href="#">Two-for-One Machine</a>
+                            <a href="#">Jari Machine</a>
+                        </div>
+                    </li>
+                    <li><a href="qualityControl.php">Quality Control</a></li>
+                    <li><a href="global.html">Our Presence</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="main-content">
+            <!-- Globe Section -->
+            <div class="globe-container">
+                <div class="globe-wrapper">
+                    <canvas id="globeCanvas"></canvas>
+                    <div id="loading" class="loading">Loading Earth Globe...</div>
+                </div>
+                <div class="globe-controls">
+                    <button class="control-btn" onclick="resetCamera()">Reset View</button>
+                    <button class="control-btn secondary" onclick="toggleAutoRotate()" id="rotateBtn">Auto Rotate: Off</button>
+                </div>
+            </div>
+
+            <!-- Locations Section -->
+            <div class="locations-section">
+                <h2 class="section-title">Our Global Locations</h2>
+                <p class="section-subtitle">Strategic presence across 6 countries worldwide</p>
+                
+                <div class="locations-grid" id="locationsGrid">
+                    <!-- Locations will be populated by JavaScript -->
+                </div>
+
+                <!-- Stats Section -->
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-number">6</div>
+                        <div class="stat-label">Countries</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">3</div>
+                        <div class="stat-label">Continents</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">12+</div>
+                        <div class="stat-label">Years Experience</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Global Support</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer - Same as home.php -->
+    <footer>
+        <div class="footer-links">
+            <div class="footer-column">
+                <h4>Quick Links</h4>
+                <a href="home.php">Home</a>
+                <a href="history.php">Company History</a>
+                <a href="#">Product Range</a>
+                <a href="#">Quality Control</a>
+            </div>
+            
+            <div class="footer-column">
+                <h4>Support</h4>
+                <a href="client-support.php" class="support-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px;">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                    </svg>
+                    Client Support
+                </a>
+                <a href="technical-support.php" class="support-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px;">
+                        <path d="M21 6h-2v9H6v2c0 .55.45 1 1 1h11l4 4V7c0-.55-.45-1-1-1zm-4 6V3c0-.55-.45-1-1-1H3c-.55 0-1 .45-1 1v14l4-4h11c.55 0 1-.45 1-1z"/>
+                    </svg>
+                    Technical Support
+                </a>
+            </div>
+            
+            <div class="footer-column">
+                <h4>Contact Info</h4>
+                <p>📧 info@psindustries.com</p>
+                <p>📞 +1 (555) 123-4567</p>
+                <p>📍 123 Industrial Park, Manufacturing City</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2023 P S Industries. All Rights Reserved.</p>
+            
+            <!-- Instagram Icon in Bottom Left Corner -->
+            <div class="instagram-corner">
+                <a href="https://www.instagram.com/psindustries2026/" target="_blank" class="instagram-icon-btn">
+                    <svg class="instagram-icon-simple" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>    
+        // Global variables
+        let scene, camera, renderer, globe, controls;
+        let locations = [];
+        let markers = [];
+        let isAutoRotating = false;
+
+        // Initialize Three.js
+        function init() {
+            // Create scene with white background
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0xf8f9fa);
+            
+            // Create camera
+            const canvas = document.getElementById('globeCanvas');
+            const width = canvas.parentElement.clientWidth;
+            const height = canvas.parentElement.clientHeight;
+            
+            camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+            camera.position.z = 3;
+
+            // Create renderer
+            renderer = new THREE.WebGLRenderer({ 
+                canvas, 
+                antialias: true,
+                alpha: true 
+            });
+            renderer.setSize(width, height);
+
+            // Add orbit controls
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            controls.rotateSpeed = 0.5;
+
+            // Create the globe
+            createEarthGlobe();
+            
+            // Load locations and create cards
+            loadLocations();
+
+            // Handle resize
+            window.addEventListener('resize', onWindowResize);
+
+            // Start animation
+            animate();
+        }
+
+        function createEarthGlobe() {
+            const geometry = new THREE.SphereGeometry(1, 64, 64);
+            
+            const textureLoader = new THREE.TextureLoader();
+            const earthTexture = textureLoader.load(
+                'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_atmos_2048.jpg',
+                () => {
+                    console.log('Earth texture loaded successfully');
+                    document.getElementById('loading').style.display = 'none';
+                },
+                undefined,
+                (error) => {
+                    console.error('Error loading Earth texture:', error);
+                    createSimpleEarth();
+                }
+            );
+
+            const material = new THREE.MeshPhongMaterial({
+                map: earthTexture,
+                specular: new THREE.Color(0x333333),
+                shininess: 5
+            });
+
+            globe = new THREE.Mesh(geometry, material);
+            scene.add(globe);
+
+            // Add lighting
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambientLight);
+
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+            directionalLight.position.set(5, 3, 5);
+            scene.add(directionalLight);
+        }
+
+        function createSimpleEarth() {
+            const geometry = new THREE.SphereGeometry(1, 64, 64);
+            const material = new THREE.MeshPhongMaterial({
+                color: 0x2c5aa0,
+                specular: 0x333333,
+                shininess: 5
+            });
+            
+            globe = new THREE.Mesh(geometry, material);
+            scene.add(globe);
+            document.getElementById('loading').style.display = 'none';
+        }
+
+        function loadLocations() {
+            const demoLocations = [
+                {
+                    id: 1,
+                    name: "New York Office",
+                    country: "United States",
+                    lat: 40.7128,
+                    lng: -74.0060,
+                    type: "office",
+                    description: "Main headquarters in North America, driving innovation and strategic partnerships across the continent.",
+                    address: "123 Business Avenue, New York, NY 10001",
+                    phone: "+1 (555) 123-4567"
+                },
+                {
+                    id: 2,
+                    name: "London Factory", 
+                    country: "United Kingdom",
+                    lat: 51.5074,
+                    lng: -0.1278,
+                    type: "factory",
+                    description: "Primary manufacturing facility in Europe with state-of-the-art production capabilities.",
+                    address: "456 Industrial Road, London, UK",
+                    phone: "+44 20 7946 0958"
+                },
+                {
+                    id: 3,
+                    name: "Tokyo Showroom",
+                    country: "Japan",
+                    lat: 35.6762,
+                    lng: 139.6503,
+                    type: "showroom",
+                    description: "Premium product display and customer experience center in the heart of Tokyo.",
+                    address: "789 Ginza Street, Tokyo, Japan",
+                    phone: "+81 3 1234 5678"
+                },
+                {
+                    id: 4,
+                    name: "Dubai Distribution",
+                    country: "UAE",
+                    lat: 25.2048,
+                    lng: 55.2708,
+                    type: "distribution",
+                    description: "Strategic distribution center serving the Middle East and African markets.",
+                    address: "321 Trade Center, Dubai, UAE",
+                    phone: "+971 4 123 4567"
+                },
+                {
+                    id: 5,
+                    name: "Sydney Warehouse",
+                    country: "Australia", 
+                    lat: -33.8688,
+                    lng: 151.2093,
+                    type: "warehouse",
+                    description: "Central storage and logistics hub for the Asia-Pacific region.",
+                    address: "654 Harbor View, Sydney, Australia",
+                    phone: "+61 2 9876 5432"
+                },
+                {
+                    id: 6,
+                    name: "Mumbai Office",
+                    country: "India",
+                    lat: 19.0760,
+                    lng: 72.8777,
+                    type: "office",
+                    description: "Regional office for South Asia operations and customer support.",
+                    address: "987 Corporate Park, Mumbai, India",
+                    phone: "+91 22 2345 6789"
+                }
+            ];
+
+            locations = demoLocations;
+            createLocationCards();
+            createLocationMarkers();
+        }
+
+        function createLocationCards() {
+            const grid = document.getElementById('locationsGrid');
+            grid.innerHTML = '';
+
+            locations.forEach(location => {
+                const card = document.createElement('div');
+                card.className = 'location-card';
+                card.onclick = () => focusOnLocation(location);
+                
+                card.innerHTML = `
+                    <div class="location-header">
+                        <div>
+                            <div class="location-name">${location.name}</div>
+                            <div class="location-country">${location.country}</div>
+                        </div>
+                        <div class="location-type type-${location.type}">${location.type}</div>
+                    </div>
+                    <div class="location-description">${location.description}</div>
+                    <div class="location-details">
+                        <div class="detail-item">
+                            <svg class="detail-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                            </svg>
+                            ${location.address}
+                        </div>
+                        <div class="detail-item">
+                            <svg class="detail-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                            </svg>
+                            ${location.phone}
+                        </div>
+                        <div class="detail-item">
+                            <svg class="detail-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                            </svg>
+                            <span class="coordinates">${location.lat.toFixed(4)}°N, ${location.lng.toFixed(4)}°E</span>
+                        </div>
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+
+        function createLocationMarkers() {
+            markers.forEach(marker => scene.remove(marker));
+            markers = [];
+
+            locations.forEach(location => {
+                const phi = (90 - location.lat) * (Math.PI / 180);
+                const theta = (location.lng + 180) * (Math.PI / 180);
+                const radius = 1.02;
+
+                const x = -(radius * Math.sin(phi) * Math.cos(theta));
+                const y = radius * Math.cos(phi);
+                const z = radius * Math.sin(phi) * Math.sin(theta);
+
+                const markerGeometry = new THREE.SphereGeometry(0.03, 16, 16);
+                const markerMaterial = new THREE.MeshBasicMaterial({ 
+                    color: getColorByType(location.type) 
+                });
+                const marker = new THREE.Mesh(markerGeometry, markerMaterial);
+                marker.position.set(x, y, z);
+                marker.userData = location;
+
+                scene.add(marker);
+                markers.push(marker);
+            });
+        }
+
+        function getColorByType(type) {
+            const colors = {
+                'office': 0x1565c0,
+                'factory': 0x2e7d32,
+                'warehouse': 0xef6c00,
+                'showroom': 0xad1457,
+                'distribution': 0x7b1fa2
+            };
+            return colors[type] || 0x666666;
+        }
+
+        function focusOnLocation(location) {
+            const phi = (90 - location.lat) * (Math.PI / 180);
+            const theta = (location.lng + 180) * (Math.PI / 180);
+            const radius = 2.5;
+
+            const x = -(radius * Math.sin(phi) * Math.cos(theta));
+            const y = radius * Math.cos(phi);
+            const z = radius * Math.sin(phi) * Math.sin(theta);
+
+            controls.target.set(x, y, z);
+            camera.position.set(x * 1.5, y * 1.5, z * 1.5);
+        }
+
+        function resetCamera() {
+            controls.reset();
+            camera.position.set(0, 0, 3);
+            controls.target.set(0, 0, 0);
+        }
+
+        function toggleAutoRotate() {
+            isAutoRotating = !isAutoRotating;
+            controls.autoRotate = isAutoRotating;
+            controls.autoRotateSpeed = 0.5;
+            
+            document.getElementById('rotateBtn').textContent = 
+                `Auto Rotate: ${isAutoRotating ? 'On' : 'Off'}`;
+        }
+
+        function onWindowResize() {
+            const canvas = document.getElementById('globeCanvas');
+            const width = canvas.parentElement.clientWidth;
+            const height = canvas.parentElement.clientHeight;
+            
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+            renderer.setSize(width, height);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        // Initialize when page loads
+        window.addEventListener('load', init);
+    </script>
+</body>
+</html>
